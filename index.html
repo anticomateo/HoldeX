@@ -1,32 +1,51 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HoldeX — Infraestructura de confianza para transacciones</title>
+<title>HoldeX — Trust infrastructure for transactions</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 <style>
 
 /* ============ FONTS ============ */
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;600&display=swap');
 
-/* ============ TOKENS ============ */
+/* ============ TOKENS — Identity System v1.0 ============ */
 :root{
-  --black: #000000;
-  --panel: #0A0A0A;
-  --panel-2: #131313;
-  --line: #232323;
-  --orange: #FE5D03;
-  --orange-dim: #7A3106;
-  --green: #02B24D;
-  --green-dim: #063F1D;
-  --bone: #F5F3EE;
-  --grey: #8F8C86;
-  --grey-dim: #55534E;
+  /* marca */
+  --carbon: #080808;
+  --ivory:  #F5F3EE;
+  --red:    #FF164C;
 
-  --display: 'Archivo Black', 'Archivo', sans-serif;
-  --body: 'Archivo', sans-serif;
-  --mono: 'Space Mono', monospace;
+  /* alias heredados (los usa el JS y el markup) */
+  --black: var(--carbon);
+  --bone:  var(--ivory);
+  --panel: var(--carbon);
+  --panel-2: #101010;
+
+  /* neutros derivados, sobre ivory */
+  --line: #DCD8CF;
+  --grey: #55524C;
+  --grey-dim: #6B675F;
+
+  /* semánticos de estado — NUNCA el rojo de marca */
+  --green: #0F7A52;
+  --orange: #A8461C;
+
+  --display: 'Archivo', sans-serif;
+  --body: 'Source Sans 3', sans-serif;
+}
+
+/* superficies carbon: los mismos tokens, invertidos */
+.flow-section,
+.final-cta,
+footer,
+.dispute{
+  --line: #262421;
+  --grey: #A29D97;
+  --grey-dim: #8A857E;
+  --green: #3DD68C;
+  --orange: #FF9557;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -34,10 +53,11 @@
 html{scroll-behavior:smooth;}
 
 body{
-  background: var(--black);
-  color: var(--bone);
+  background: var(--ivory);
+  color: var(--carbon);
   font-family: var(--body);
-  line-height: 1.5;
+  font-size: 17px;
+  line-height: 1.55;
   overflow-x: hidden;
 }
 
@@ -47,213 +67,222 @@ body{
 
 a{color:inherit;text-decoration:none;}
 
-::selection{background:var(--orange); color:var(--black);}
+::selection{background:var(--red); color:var(--carbon);}
 
 :focus-visible{
-  outline: 2px solid var(--green);
+  outline: 2px solid var(--red);
   outline-offset: 3px;
 }
 
 .wrap{
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 40px;
 }
 
 @media (max-width: 640px){
-  .wrap{padding: 0 20px;}
+  .wrap{padding: 0 22px;}
+}
+
+/* ============ ISOTIPO ============ */
+.mark{
+  display:block;
+  width: auto;
+  aspect-ratio: 1184 / 1623;
+  fill: var(--red);
 }
 
 /* ============ UTILITY TYPE ============ */
 .eyebrow{
-  font-family: var(--mono);
-  font-size: 12.5px;
-  letter-spacing: 0.14em;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--grey);
+  color: var(--red);
 }
-.eyebrow b{color:var(--bone); font-weight:700;}
-
-.mono-tag{
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  padding: 5px 10px;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-}
+.eyebrow b{color:var(--red); font-weight:600;}
 
 /* ============ NAV ============ */
 .nav{
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(0,0,0,0.86);
-  backdrop-filter: blur(10px);
+  background: rgba(245,243,238,0.92);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
 .nav-inner{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding: 16px 32px;
+  padding: 18px 40px;
   max-width: 1180px;
   margin: 0 auto;
 }
 .nav-logo{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
 }
-.nav-logo img{
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display:block;
-}
+.nav-logo .mark{height: 28px;}
 .nav-logo span{
   font-family: var(--display);
-  font-size: 18px;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
 }
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap: 22px;
+}
+.lang-toggle{
+  display:flex;
+  align-items:center;
+  gap: 2px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.lang-toggle button{
+  background: transparent;
+  border: none;
+  padding: 8px 6px;
+  font: inherit;
+  color: var(--grey-dim);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.lang-toggle button:hover{color: var(--carbon);}
+.lang-toggle button[aria-pressed="true"]{color: var(--carbon); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; text-decoration-color: var(--red);}
+.lang-toggle .sep{color: var(--line);}
 .nav-cta{
-  font-family: var(--mono);
-  font-size: 12.5px;
-  letter-spacing: 0.04em;
-  padding: 9px 16px;
-  border: 1px solid var(--orange);
-  color: var(--bone);
-  border-radius: 3px;
-  transition: background 0.2s ease, color 0.2s ease;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0;
+  padding: 12px 20px;
+  background: var(--red);
+  color: var(--carbon);
+  transition: background 0.15s ease;
 }
-.nav-cta:hover{
-  background: var(--orange);
-  color: var(--black);
-}
+.nav-cta:hover{background: var(--carbon); color: var(--ivory);}
 @media (max-width: 640px){
-  .nav-inner{padding: 14px 20px;}
-  .nav-logo span{font-size:15px;}
+  .nav-inner{padding: 14px 22px;}
+  .nav-logo span{font-size:18px;}
+  .nav-logo .mark{height:24px;}
+  .nav-right{gap:10px;}
+  .nav-cta{font-size:13px; padding:11px 14px;}
+  .lang-toggle{font-size:12px;}
 }
 
 /* ============ HERO ============ */
 .hero{
   position: relative;
-  padding: 100px 0 70px;
+  padding: 104px 0 76px;
   overflow: hidden;
 }
-.hero::before{
-  content:'';
-  position:absolute;
-  top: -260px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 900px;
-  background: radial-gradient(circle, rgba(254,93,3,0.09) 0%, rgba(2,178,77,0.05) 40%, transparent 70%);
-  pointer-events:none;
-}
+.hero::before{content:none;}
 .hero-inner{
   position:relative;
   z-index:2;
-  text-align:center;
+  text-align:left;
+  max-width: 900px;
 }
 .hero-eyebrow{
   display:inline-flex;
   align-items:center;
   gap:10px;
-  margin-bottom: 28px;
+  margin-bottom: 26px;
   opacity:0;
   animation: rise 0.7s ease forwards;
 }
 .hero-eyebrow .dot{
-  width:6px;height:6px;border-radius:50%;
-  background: var(--green);
-  box-shadow: 0 0 0 3px rgba(2,178,77,0.18);
+  width:8px;height:8px;
+  background: var(--red);
 }
 h1.hero-title{
   font-family: var(--display);
-  font-size: clamp(40px, 7vw, 84px);
-  line-height: 0.98;
-  letter-spacing: -0.02em;
-  max-width: 920px;
-  margin: 0 auto;
+  font-weight: 800;
+  font-size: clamp(42px, 7.4vw, 86px);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  max-width: 900px;
   opacity:0;
   animation: rise 0.8s ease 0.1s forwards;
 }
-h1.hero-title .split{
-  display:block;
-}
-h1.hero-title .accent-o{color: var(--orange);}
-h1.hero-title .accent-g{color: var(--green);}
+h1.hero-title .split{display:block;}
+h1.hero-title .accent-o,
+h1.hero-title .accent-g{color: inherit;}
 
 .hero-sub{
-  font-size: clamp(16px, 2vw, 19px);
+  font-size: clamp(17px, 2vw, 20px);
   color: var(--grey);
   max-width: 560px;
-  margin: 26px auto 0;
+  margin: 28px 0 0;
   opacity:0;
   animation: rise 0.8s ease 0.22s forwards;
 }
-.hero-sub b{color:var(--bone); font-weight:600;}
+.hero-sub b{color:var(--carbon); font-weight:600;}
 
 .hero-form{
-  margin: 42px auto 0;
-  max-width: 480px;
+  margin: 40px 0 0;
+  max-width: 540px;
   opacity:0;
   animation: rise 0.8s ease 0.34s forwards;
 }
 .form-row{
   display:flex;
   gap:10px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 6px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 .form-row input{
   flex:1;
   background:transparent;
-  border:none;
+  border:1px solid var(--carbon);
+  border-radius: 0;
   outline:none;
-  color: var(--bone);
+  color: var(--carbon);
   font-family: var(--body);
-  font-size: 15px;
-  padding: 12px 14px;
+  font-size: 17px;
+  padding: 16px 18px;
 }
 .form-row input::placeholder{color: var(--grey-dim);}
 .btn-submit{
-  font-family: var(--mono);
-  font-size: 13px;
+  font-family: var(--display);
+  font-size: 16px;
   font-weight:700;
-  letter-spacing: 0.03em;
-  background: var(--green);
-  color: var(--black);
+  letter-spacing: 0;
+  background: var(--red);
+  color: var(--carbon);
   border:none;
-  border-radius: 4px;
-  padding: 0 22px;
+  border-radius: 0;
+  padding: 0 28px;
+  min-height: 56px;
   cursor:pointer;
   white-space:nowrap;
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
 }
-.btn-submit:hover{background:#03cd58; transform: translateY(-1px);}
-.btn-submit:active{transform: translateY(0);}
+.btn-submit:hover{background: var(--carbon); color: var(--ivory);}
 .btn-submit:disabled{
-  opacity:0.62;
+  opacity:0.55;
   cursor:default;
-  transform:none;
+  background: var(--red);
+  color: var(--carbon);
 }
 
 @media (max-width: 560px){
-  .form-row{flex-direction:column; padding:8px;}
-  .btn-submit{padding:13px; margin-top:4px;}
+  .form-row{flex-direction:column; padding:0;}
+  .btn-submit{padding:16px; margin-top:0;}
 }
 
 .hero-note{
-  font-family: var(--mono);
-  font-size: 11.5px;
+  font-size: 14px;
   color: var(--grey-dim);
   margin-top: 14px;
   opacity:0;
@@ -263,33 +292,37 @@ h1.hero-title .accent-g{color: var(--green);}
 .hero-strip{
   margin-top: 64px;
   display:flex;
-  justify-content:center;
+  justify-content:flex-start;
   gap: 0;
   flex-wrap:wrap;
+  border-top: 1px solid var(--line);
+  padding-top: 26px;
   opacity:0;
   animation: rise 0.8s ease 0.5s forwards;
 }
 .hero-strip .stat{
-  padding: 0 34px;
-  text-align:center;
+  padding: 0 40px 0 0;
+  margin-right: 40px;
+  text-align:left;
   border-right: 1px solid var(--line);
 }
-.hero-strip .stat:last-child{border-right:none;}
+.hero-strip .stat:last-child{border-right:none; margin-right:0;}
 .hero-strip .num{
-  font-family: var(--mono);
-  font-size: 22px;
-  font-weight:700;
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight:800;
+  letter-spacing: -0.03em;
 }
 .hero-strip .lab{
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--grey);
   margin-top: 4px;
   text-transform:uppercase;
-  letter-spacing:0.06em;
+  letter-spacing:0.08em;
 }
 @media (max-width:640px){
-  .hero-strip{gap:0;}
-  .hero-strip .stat{padding:0 18px; margin-bottom:14px;}
+  .hero{padding: 64px 0 56px;}
+  .hero-strip .stat{padding:0 20px 0 0; margin-right:20px; margin-bottom:14px;}
 }
 
 @keyframes rise{
@@ -299,126 +332,136 @@ h1.hero-title .accent-g{color: var(--green);}
 
 /* ============ SECTION SHELL ============ */
 .section{
-  padding: 110px 0;
+  padding: 112px 0;
   position:relative;
   border-top: 1px solid var(--line);
 }
-.section.tone-orange{border-top-color: var(--orange-dim);}
-.section.tone-green{border-top-color: var(--green-dim);}
+.section.tone-orange,
+.section.tone-green{border-top-color: var(--line);}
 
 .section-head{
-  margin-bottom: 60px;
-  max-width: 640px;
+  margin-bottom: 64px;
+  max-width: 720px;
 }
-.section-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+.section-head.center{margin-left:0; margin-right:0; text-align:left;}
 .section-title{
   font-family: var(--display);
+  font-weight: 700;
   font-size: clamp(30px, 4vw, 46px);
   line-height: 1.04;
-  letter-spacing: -0.015em;
-  margin-top: 14px;
+  letter-spacing: -0.025em;
+  margin-top: 16px;
 }
 
 @media (max-width: 640px){
   .section{padding: 72px 0;}
-  .section-head{margin-bottom:40px;}
+  .section-head{margin-bottom:44px;}
 }
 
-/* ============ ESCROW FLOW — SIGNATURE ELEMENT ============ */
+/* ============ FLUJO DE CUSTODIA — plano carbon ============ */
 .flow-section{
-  padding: 110px 0 130px;
+  background: var(--carbon);
+  color: var(--ivory);
+  border-top: none;
+  padding: 112px 0 124px;
   position:relative;
 }
 .flow-rail{
   position:relative;
-  max-width: 900px;
-  margin: 80px auto 0;
-  padding: 0 20px;
+  max-width: 980px;
+  margin: 76px 0 0;
+  padding: 0;
 }
 .flow-track{
   position:absolute;
   top: 27px;
-  left: 20px;
-  right: 20px;
+  left: 28px;
+  right: 28px;
   height: 2px;
   background: var(--line);
   overflow:hidden;
-  border-radius:2px;
+  border-radius:0;
 }
 .flow-track-fill{
   position:absolute;
   top:0; left:0;
   height:100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--orange), var(--green));
+  background: var(--red);
   transition: width 1.4s cubic-bezier(0.4,0,0.2,1);
 }
 .flow-steps{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 28px;
   position:relative;
 }
 .flow-step{
   display:flex;
   flex-direction:column;
-  align-items:center;
-  text-align:center;
+  align-items:flex-start;
+  text-align:left;
   opacity:0;
-  transform: translateY(18px);
+  transform: translateY(16px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .flow-step.in-view{opacity:1; transform:translateY(0);}
 .flow-node{
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  background: var(--panel);
-  border: 2px solid var(--line);
+  border-radius: 0;
+  background: var(--carbon);
+  border: 1px solid var(--line);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-family: var(--mono);
-  font-size: 18px;
+  font-family: var(--display);
+  font-size: 17px;
   font-weight:700;
-  color: var(--grey-dim);
-  transition: border-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
+  letter-spacing: 0.04em;
+  color: var(--grey);
+  transition: border-color 0.5s ease, color 0.5s ease;
+  box-shadow: none;
   z-index:2;
   position:relative;
 }
 .flow-step.in-view .flow-node{
-  border-color: var(--step-color, var(--green));
-  color: var(--step-color, var(--green));
-  background: var(--black);
-  box-shadow: 0 0 0 6px var(--step-glow, rgba(2,178,77,0.1));
+  border-color: var(--ivory);
+  color: var(--ivory);
+  background: var(--carbon);
+  box-shadow: none;
 }
-.flow-step[data-color="orange"]{--step-color: var(--orange); --step-glow: rgba(254,93,3,0.12);}
-.flow-step[data-color="green"]{--step-color: var(--green); --step-glow: rgba(2,178,77,0.12);}
+.flow-step:first-child.in-view .flow-node{
+  border-color: var(--red);
+  color: var(--red);
+}
 
 .flow-label{
-  font-family: var(--mono);
+  font-family: var(--display);
+  font-weight: 600;
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--grey);
-  margin-top: 16px;
+  color: var(--red);
+  margin-top: 20px;
 }
 .flow-title{
   font-family: var(--display);
-  font-size: 17px;
-  margin-top: 6px;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: 21px;
+  margin-top: 8px;
+  letter-spacing: -0.015em;
 }
 .flow-desc{
-  font-size: 13.5px;
+  font-size: 16px;
   color: var(--grey);
-  margin-top: 8px;
-  max-width: 190px;
-  line-height:1.5;
+  margin-top: 10px;
+  max-width: 230px;
+  line-height:1.55;
 }
 
 @media (max-width: 800px){
-  .flow-steps{grid-template-columns: 1fr; gap: 44px;}
+  .flow-steps{grid-template-columns: 1fr; gap: 40px;}
   .flow-track{
     top: 0; bottom:0; left:27px; right:auto; width:2px; height:auto;
   }
@@ -426,231 +469,245 @@ h1.hero-title .accent-g{color: var(--green);}
   .flow-rail{padding-left: 0;}
   .flow-step{flex-direction:row; text-align:left; align-items:flex-start; gap:20px;}
   .flow-label, .flow-title, .flow-desc{margin-top:0;}
-  .flow-desc{max-width:none; margin-top:6px;}
+  .flow-desc{max-width:none; margin-top:8px;}
   .flow-node{flex-shrink:0;}
 }
 
 .flow-caption{
-  text-align:center;
-  margin-top: 56px;
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--grey-dim);
-  letter-spacing:0.03em;
+  text-align:left;
+  margin-top: 60px;
+  max-width: 720px;
+  font-size: 17px;
+  color: var(--grey);
+  line-height: 1.6;
 }
-.flow-caption .amt{color:var(--bone);}
+.flow-caption .amt{color:var(--ivory); font-weight:600;}
 
-/* ============ PILLARS GRID ============ */
+/* ============ CAPAS ============ */
 .pillars{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  overflow:hidden;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 48px 40px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow:visible;
 }
 .pillar{
-  background: var(--panel);
-  padding: 34px 26px;
-  transition: background 0.25s ease;
+  background: transparent;
+  padding: 26px 0 0;
+  border-top: 1px solid var(--line);
+  transition: none;
 }
-.pillar:hover{background: var(--panel-2);}
+.pillar:first-child{border-top: 2px solid var(--red);}
+.pillar:hover{background: transparent;}
 .pillar-icon{
-  width:38px; height:38px;
+  width:30px; height:30px;
   margin-bottom: 20px;
 }
+.pillar-icon *{stroke: var(--carbon);}
 .pillar-tag{
-  font-family: var(--mono);
+  font-family: var(--display);
+  font-weight: 600;
   font-size: 11px;
-  color: var(--pillar-color);
-  letter-spacing:0.08em;
-  margin-bottom:10px;
+  color: var(--red);
+  letter-spacing:0.14em;
+  margin-bottom:12px;
 }
 .pillar-title{
   font-family: var(--display);
-  font-size: 19px;
-  letter-spacing:-0.01em;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing:-0.015em;
   margin-bottom: 10px;
 }
 .pillar-desc{
-  font-size: 14px;
+  font-size: 16px;
   color: var(--grey);
-  line-height:1.55;
+  line-height:1.6;
 }
-.pillar[data-c="orange"]{--pillar-color: var(--orange);}
-.pillar[data-c="green"]{--pillar-color: var(--green);}
 
 @media (max-width: 900px){
-  .pillars{grid-template-columns: repeat(2,1fr);}
+  .pillars{grid-template-columns: repeat(2,minmax(0,1fr));}
+  .pillar:first-child{border-top-width:1px; border-top-color:var(--line);}
 }
 @media (max-width: 560px){
-  .pillars{grid-template-columns: 1fr;}
+  .pillars{grid-template-columns: 1fr; gap:34px;}
 }
 
-/* ============ FOR-WHO SPLIT ============ */
+/* ============ PERSONAS / EMPRESAS ============ */
 .split-grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--line);
-  border-radius:10px;
-  overflow:hidden;
-  border:1px solid var(--line);
+  gap: 72px;
+  background: transparent;
+  border-radius:0;
+  overflow:visible;
+  border:none;
 }
 .split-card{
-  padding: 44px 38px;
-  background: var(--panel);
+  padding: 28px 0 0;
+  background: transparent;
+  border-top: 1px solid var(--line);
 }
-.split-card.orange{border-bottom: 3px solid var(--orange);}
-.split-card.green{border-bottom: 3px solid var(--green);}
+.split-card.orange,
+.split-card.green{border-bottom: none;}
 .split-kicker{
-  font-family: var(--mono);
-  font-size: 11.5px;
-  letter-spacing:0.08em;
-  margin-bottom: 16px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing:0.14em;
+  margin-bottom: 18px;
+  color: var(--red);
 }
-.split-card.orange .split-kicker{color:var(--orange);}
-.split-card.green .split-kicker{color:var(--green);}
+.split-card.orange .split-kicker,
+.split-card.green .split-kicker{color:var(--red);}
 .split-title{
   font-family: var(--display);
-  font-size: 26px;
-  margin-bottom: 18px;
-  letter-spacing:-0.01em;
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 22px;
+  letter-spacing:-0.02em;
+  line-height: 1.15;
 }
 .split-list{
   list-style:none;
   display:flex;
   flex-direction:column;
-  gap: 12px;
+  gap: 16px;
 }
 .split-list li{
-  font-size: 14.5px;
+  font-size: 16.5px;
   color: var(--grey);
-  padding-left: 20px;
+  padding-left: 24px;
   position:relative;
-  line-height:1.5;
+  line-height:1.55;
 }
-.split-card.orange .split-list li::before{
-  content:'→'; position:absolute; left:0; color:var(--orange);
-}
+.split-card.orange .split-list li::before,
 .split-card.green .split-list li::before{
-  content:'→'; position:absolute; left:0; color:var(--green);
+  content:'—'; position:absolute; left:0; color:var(--red); font-weight:700;
 }
-.split-list li b{color:var(--bone); font-weight:600;}
+.split-list li b{color:var(--carbon); font-weight:600;}
 
 @media (max-width: 760px){
-  .split-grid{grid-template-columns:1fr;}
-  .split-card{padding:34px 24px;}
+  .split-grid{grid-template-columns:1fr; gap:44px;}
+  .split-card{padding:24px 0 0;}
 }
 
-/* ============ DISPUTE STRIP ============ */
+/* ============ DISPUTAS ============ */
 .dispute{
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 48px;
+  background: var(--carbon);
+  color: var(--ivory);
+  border: none;
+  border-radius: 0;
+  padding: 56px;
   display:grid;
   grid-template-columns: 1fr auto;
   align-items:center;
-  gap: 40px;
+  gap: 56px;
 }
 .dispute-title{
   font-family: var(--display);
-  font-size: 24px;
-  margin-bottom:12px;
-  letter-spacing:-0.01em;
+  font-weight: 700;
+  font-size: 34px;
+  margin-bottom:16px;
+  letter-spacing:-0.025em;
 }
 .dispute-sub{
   color:var(--grey);
-  font-size:14.5px;
-  max-width:480px;
+  font-size:17px;
+  max-width:560px;
   line-height:1.6;
 }
 .dispute-badge{
-  font-family:var(--mono);
-  font-size: 34px;
-  font-weight:700;
-  color:var(--green);
-  text-align:center;
+  font-family:var(--display);
+  font-size: 52px;
+  font-weight:800;
+  letter-spacing:-0.03em;
+  color:var(--ivory);
+  text-align:left;
   white-space:nowrap;
 }
 .dispute-badge span{
   display:block;
-  font-size:11px;
+  font-family: var(--body);
+  font-size:13px;
   color:var(--grey);
   font-weight:400;
-  letter-spacing:0.06em;
+  letter-spacing:0.08em;
   text-transform:uppercase;
-  margin-top:6px;
+  margin-top:10px;
+  line-height:1.5;
 }
 @media (max-width:700px){
-  .dispute{grid-template-columns:1fr; padding:34px 26px; text-align:left;}
-  .dispute-badge{text-align:left;}
+  .dispute{grid-template-columns:1fr; padding:34px 26px; text-align:left; gap:32px;}
+  .dispute-title{font-size:28px;}
+  .dispute-badge{text-align:left; font-size:44px;}
 }
 
-/* ============ FINAL CTA ============ */
+/* ============ CIERRE ============ */
 .final-cta{
-  padding: 130px 0 110px;
-  text-align:center;
+  background: var(--carbon);
+  color: var(--ivory);
+  padding: 124px 0 112px;
+  text-align:left;
   position:relative;
   overflow:hidden;
 }
-.final-cta::before{
-  content:'';
-  position:absolute;
-  bottom: -300px;
-  left:50%;
-  transform:translateX(-50%);
-  width:1000px;height:1000px;
-  background: radial-gradient(circle, rgba(2,178,77,0.08), rgba(254,93,3,0.05) 45%, transparent 70%);
-}
-.final-cta-inner{position:relative; z-index:2;}
+.final-cta::before{content:none;}
+.final-cta-inner{position:relative; z-index:2; max-width: 760px;}
 .final-title{
   font-family: var(--display);
-  font-size: clamp(32px, 5vw, 56px);
-  letter-spacing:-0.02em;
-  line-height:1.05;
+  font-weight: 800;
+  font-size: clamp(34px, 5.2vw, 58px);
+  letter-spacing:-0.03em;
+  line-height:0.98;
   max-width: 760px;
-  margin: 0 auto;
+  margin: 16px 0 0;
 }
 .final-sub{
   color:var(--grey);
-  font-size:16px;
-  max-width:480px;
-  margin: 20px auto 40px;
+  font-size:18px;
+  max-width:520px;
+  margin: 22px 0 38px;
 }
+.final-cta .form-row input{
+  border-color: #55524C;
+  color: var(--ivory);
+}
+.final-cta .btn-submit:hover{background: var(--ivory); color: var(--carbon);}
 
 /* ============ FOOTER ============ */
 footer{
+  background: var(--carbon);
+  color: var(--grey);
   border-top: 1px solid var(--line);
-  padding: 40px 0;
+  padding: 44px 0;
 }
 .footer-inner{
   display:flex;
   justify-content:space-between;
   align-items:center;
   flex-wrap:wrap;
-  gap:16px;
+  gap:18px;
 }
 .footer-logo{
-  display:flex;align-items:center;gap:10px;
+  display:flex;align-items:center;gap:12px;
 }
-.footer-logo img{width:26px;height:26px;border-radius:50%;}
-.footer-logo span{font-family:var(--mono); font-size:12.5px; color:var(--grey);}
+.footer-logo .mark{height:24px;}
+.footer-logo span{font-family:var(--body); font-size:14.5px; color:var(--grey);}
 .footer-links{
   display:flex;
-  gap: 24px;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--grey-dim);
+  gap: 28px;
+  font-size: 14.5px;
+  color: var(--grey);
 }
-.footer-links a:hover{color:var(--bone);}
+.footer-links a:hover{color:var(--ivory);}
 
-/* ============ REVEAL ANIMATIONS ============ */
+/* ============ REVEAL ============ */
 .reveal{
   opacity:0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 .reveal.in-view{opacity:1; transform:translateY(0);}
@@ -659,13 +716,26 @@ footer{
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="holdex-mark" viewBox="0 0 1184 1623">
+    <path fill-rule="evenodd" d="M469.7 1434.2C469.4 1247.0 469.3 1245.4 467.2 1234.5C461.5 1204.4 448.2 1181.3 426.2 1162.7C413.3 1151.9 415.5 1153.2 290.5 1080.0C272.4 1069.4 254.2 1058.5 250.2 1055.8C241.0 1049.6 230.4 1039.6 224.0 1031.1C217.6 1022.6 209.9 1007.7 206.7 997.5C201.3 980.1 201.0 975.8 201.0 909.3C201.0 858.6 200.8 848.0 199.7 848.0C197.7 848.0 182.8 859.5 173.6 868.1C139.0 900.4 120.0 941.5 117.0 990.3C116.5 998.7 116.0 1020.4 116.0 1038.7L116.0 1071.9L96.8 1060.8C86.2 1054.6 60.2 1039.6 39.0 1027.4L0.5 1005.3L0.5 749.4C0.5 471.9 0.3 483.8 6.1 454.7C12.6 421.7 24.6 392.9 43.5 364.5C62.1 336.6 91.0 308.3 122.9 287.1C140.8 275.2 144.8 273.0 172.0 260.0C196.3 248.4 261.3 217.3 312.0 193.0C324.9 186.8 356.5 171.7 382.2 159.4C408.0 147.1 450.3 126.8 476.2 114.4C502.2 101.9 538.8 84.5 557.5 75.5C589.4 60.3 621.3 45.0 687.0 13.5L714.5 0.4L715.1 189.9C715.5 328.5 716.0 381.2 716.9 386.0C723.2 420.9 738.2 445.8 765.4 466.2C775.7 473.9 769.0 469.9 908.5 551.8C935.5 567.6 941.2 571.5 950.2 580.3C962.8 592.6 972.1 607.9 978.0 626.0C983.5 643.0 984.0 649.7 984.0 715.9C984.0 748.9 984.3 776.0 984.8 776.0C986.2 776.0 1001.6 763.9 1010.1 756.0C1035.1 733.0 1053.0 704.0 1061.4 672.9C1066.8 652.8 1067.3 647.8 1067.9 597.9L1068.5 551.3L1126.0 584.5L1183.5 617.7L1183.5 878.6C1183.5 1125.2 1183.4 1140.2 1181.7 1151.5C1177.4 1179.8 1170.1 1204.6 1159.6 1226.5C1146.3 1254.2 1131.9 1274.2 1108.6 1297.5C1091.2 1314.8 1076.9 1326.5 1056.6 1339.8C1040.1 1350.6 1058.0 1341.8 859.0 1437.0C834.0 1448.9 803.1 1463.7 790.5 1469.8C777.9 1475.8 756.9 1485.8 744.0 1492.0C731.1 1498.2 699.8 1513.1 674.5 1525.2C649.2 1537.3 613.6 1554.3 595.5 1563.0C577.4 1571.7 545.9 1586.8 525.5 1596.5C505.1 1606.3 484.4 1616.2 479.3 1618.5L470.1 1622.8L469.7 1434.2ZM642.3 967.5C653.3 965.9 666.8 961.6 676.2 956.9C679.7 955.2 700.6 943.2 722.8 930.3L763.0 906.8L763.0 857.1C763.0 803.7 762.5 796.6 757.7 782.5C754.4 772.8 749.1 762.7 743.5 755.3C737.4 747.1 724.9 735.6 716.3 730.1C706.4 723.9 613.7 670.4 605.8 666.4C580.6 653.7 550.6 651.3 524.0 660.1C512.7 663.8 506.9 666.9 464.2 691.8L421.9 716.5L422.3 771.5C422.6 824.8 422.7 826.8 424.9 834.5C430.1 853.3 442.6 872.6 457.3 884.9C465.2 891.5 470.4 894.7 529.0 928.6C575.3 955.3 583.4 959.6 595.5 963.4C612.4 968.8 625.9 970.0 642.3 967.5Z"/>
+  </symbol>
+</svg>
+
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-logo">
-      <img src="logo.PNG" alt="HoldeX">
+      <svg class="mark" viewBox="0 0 1184 1623" role="img" aria-label="HoldeX"><use href="#holdex-mark"></use></svg>
       <span>HoldeX</span>
     </div>
-    <a href="#acceso" class="nav-cta">Unirme a la lista</a>
+    <div class="nav-right">
+      <div class="lang-toggle" data-i18n-aria="lang.group" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <span class="sep" aria-hidden="true">/</span>
+        <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+      <a href="#acceso" class="nav-cta" data-i18n="nav.cta">Join the waitlist</a>
+    </div>
   </div>
 </nav>
 
@@ -673,28 +743,28 @@ footer{
   <div class="wrap hero-inner">
     <div class="hero-eyebrow">
       <span class="dot"></span>
-      <span class="eyebrow">Acceso anticipado · <b>lista de espera abierta</b></span>
+      <span class="eyebrow" data-i18n="hero.eyebrow">Early access · <b>waitlist open</b></span>
     </div>
 
-    <h1 class="hero-title">
-      <span class="split">De la <span class="accent-o">desconfianza</span></span>
-      <span class="split">a la <span class="accent-g">transacción</span> cerrada</span>
+    <h1 class="hero-title" data-i18n="hero.title">
+      <span class="split">From <span class="accent-o">distrust</span></span>
+      <span class="split">to a closed <span class="accent-g">deal</span></span>
     </h1>
 
-    <p class="hero-sub">HoldeX es la infraestructura que retiene el pago, verifica a ambas partes y libera el dinero solo cuando el trato se cumple. <b>Ni un banco, ni un handshake: un sistema.</b></p>
+    <p class="hero-sub" data-i18n="hero.sub">HoldeX is the infrastructure that holds the payment, verifies both parties and releases the money only when the deal is met. <b>Not a bank, not a handshake: a system.</b></p>
 
     <div class="hero-form" id="acceso">
       <form class="form-row" id="waitlist-form">
-        <input type="email" required placeholder="tu@email.com" aria-label="Tu correo electrónico" id="email-input">
-        <button type="submit" class="btn-submit" id="submit-btn">Sumarme a la lista →</button>
+        <input type="email" required placeholder="you@email.com" data-i18n-placeholder="form.placeholder" aria-label="Your email address" data-i18n-aria="form.aria" id="email-input">
+        <button type="submit" class="btn-submit" id="submit-btn">Join the waitlist</button>
       </form>
     </div>
-    <p class="hero-note" id="form-note">Sin spam. Te avisamos cuando tu acceso esté listo.</p>
+    <p class="hero-note" id="form-note">No spam. We email you when your access is ready.</p>
 
     <div class="hero-strip">
-      <div class="stat"><div class="num" style="color:var(--orange)">100%</div><div class="lab">Fondos en custodia</div></div>
-      <div class="stat"><div class="num">KYC</div><div class="lab">Identidad verificada</div></div>
-      <div class="stat"><div class="num" style="color:var(--green)">0</div><div class="lab">Pagos sin respaldo</div></div>
+      <div class="stat"><div class="num" style="color:var(--red)">100%</div><div class="lab" data-i18n="stat.1">Funds held in custody</div></div>
+      <div class="stat"><div class="num">KYC</div><div class="lab" data-i18n="stat.2">Verified identity</div></div>
+      <div class="stat"><div class="num">0</div><div class="lab" data-i18n="stat.3">Unbacked payments</div></div>
     </div>
   </div>
 </header>
@@ -702,8 +772,8 @@ footer{
 <section class="section flow-section">
   <div class="wrap">
     <div class="section-head center">
-      <span class="eyebrow">Cómo viaja tu dinero</span>
-      <h2 class="section-title">De un extremo al otro, siempre a la vista</h2>
+      <span class="eyebrow" data-i18n="flow.eyebrow">How your money travels</span>
+      <h2 class="section-title" data-i18n="flow.title">End to end, always in sight</h2>
     </div>
 
     <div class="flow-rail">
@@ -711,66 +781,66 @@ footer{
       <div class="flow-steps" id="flow-steps">
         <div class="flow-step" data-color="orange">
           <div class="flow-node">01</div>
-          <div class="flow-label">Origen</div>
-          <div class="flow-title">Se inicia el pago</div>
-          <div class="flow-desc">El pagador deposita el monto acordado. HoldeX lo retiene, no lo mueve.</div>
+          <div class="flow-label" data-i18n="step.1.label">Origin</div>
+          <div class="flow-title" data-i18n="step.1.title">The payment starts</div>
+          <div class="flow-desc" data-i18n="step.1.desc">The payer deposits the agreed amount. HoldeX holds it — it never moves it.</div>
         </div>
         <div class="flow-step" data-color="orange">
           <div class="flow-node">02</div>
-          <div class="flow-label">Verificación</div>
-          <div class="flow-title">Se valida identidad</div>
-          <div class="flow-desc">KYC de ambas partes y contrato verificable con los términos del trato.</div>
+          <div class="flow-label" data-i18n="step.2.label">Verification</div>
+          <div class="flow-title" data-i18n="step.2.title">Identity is validated</div>
+          <div class="flow-desc" data-i18n="step.2.desc">KYC on both sides, plus a verifiable contract with the terms of the deal.</div>
         </div>
         <div class="flow-step" data-color="green">
           <div class="flow-node">03</div>
-          <div class="flow-label">Cumplimiento</div>
-          <div class="flow-title">Se confirma la entrega</div>
-          <div class="flow-desc">El producto, servicio o entregable se marca como cumplido por ambas partes.</div>
+          <div class="flow-label" data-i18n="step.3.label">Fulfillment</div>
+          <div class="flow-title" data-i18n="step.3.title">Delivery is confirmed</div>
+          <div class="flow-desc" data-i18n="step.3.desc">The product, service or deliverable is marked as fulfilled by both parties.</div>
         </div>
         <div class="flow-step" data-color="green">
           <div class="flow-node">04</div>
-          <div class="flow-label">Destino</div>
-          <div class="flow-title">Se libera el fondo</div>
-          <div class="flow-desc">El dinero llega al cobrador. Si hay conflicto, entra la resolución de disputas.</div>
+          <div class="flow-label" data-i18n="step.4.label">Destination</div>
+          <div class="flow-title" data-i18n="step.4.title">The funds are released</div>
+          <div class="flow-desc" data-i18n="step.4.desc">The money reaches the payee. If there is a conflict, dispute resolution steps in.</div>
         </div>
       </div>
     </div>
 
-    <p class="flow-caption">En todo momento sabés dónde está <span class="amt">tu dinero</span> — no hay zona gris entre el "listo, pago" y el "listo, cobrado".</p>
+    <p class="flow-caption" data-i18n="flow.caption">You always know where <span class="amt">your money</span> is — there is no grey zone between "paid" and "collected".</p>
   </div>
 </section>
 
 <section class="section tone-orange">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow" style="color:var(--orange)">La base del sistema</span>
-      <h2 class="section-title">Cuatro capas, una sola confianza</h2>
+      <span class="eyebrow" data-i18n="layers.eyebrow">The base of the system</span>
+      <h2 class="section-title" data-i18n="layers.title">Four layers, one single trust</h2>
     </div>
 
     <div class="pillars">
       <div class="pillar" data-c="orange">
-        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="1.5" stroke="var(--orange)" stroke-width="1.6"/><path d="M7 10V7a5 5 0 0 1 10 0v3" stroke="var(--orange)" stroke-width="1.6"/></svg>
-        <div class="pillar-tag">CUSTODIA</div>
-        <div class="pillar-title">Escrow</div>
-        <div class="pillar-desc">El dinero queda en una cuenta neutral hasta que se cumplan las condiciones pactadas. Ninguna parte lo controla sola.</div>
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="1.5" stroke="var(--carbon)" stroke-width="1.6"/><path d="M7 10V7a5 5 0 0 1 10 0v3" stroke="var(--carbon)" stroke-width="1.6"/></svg>
+        <div class="pillar-tag" data-i18n="pillar.1.tag">CUSTODY</div>
+        <div class="pillar-title" data-i18n="pillar.1.title">Escrow</div>
+        <div class="pillar-desc" data-i18n="pillar.1.desc">The money sits in a neutral account until the agreed conditions are met. Neither party controls it alone.</div>
       </div>
       <div class="pillar" data-c="orange">
-        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="var(--orange)" stroke-width="1.6"/><path d="M4.5 20c1.4-3.8 4.3-5.7 7.5-5.7s6.1 1.9 7.5 5.7" stroke="var(--orange)" stroke-width="1.6"/><path d="M16.5 6.5l1.2 1.3 2.3-2.4" stroke="var(--orange)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="pillar-tag">IDENTIDAD</div>
-        <div class="pillar-title">Verificación KYC</div>
-        <div class="pillar-desc">Cada persona o empresa que entra al sistema pasa por validación de identidad. Sabés con quién estás tratando.</div>
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="var(--carbon)" stroke-width="1.6"/><path d="M4.5 20c1.4-3.8 4.3-5.7 7.5-5.7s6.1 1.9 7.5 5.7" stroke="var(--carbon)" stroke-width="1.6"/><path d="M16.5 6.5l1.2 1.3 2.3-2.4" stroke="var(--carbon)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="pillar-tag" data-i18n="pillar.2.tag">IDENTITY</div>
+        <div class="pillar-title" data-i18n="pillar.2.title">KYC verification</div>
+        <div class="pillar-desc" data-i18n="pillar.2.desc">Every person or company entering the system goes through identity validation. You know who you are dealing with.</div>
       </div>
       <div class="pillar" data-c="green">
-        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none"><path d="M6 4h9l4 4v12H6z" stroke="var(--green)" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4.5" stroke="var(--green)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="pillar-tag">ACUERDO</div>
-        <div class="pillar-title">Contratos verificables</div>
-        <div class="pillar-desc">Los términos del trato quedan registrados y son consultables por ambas partes en cualquier momento.</div>
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none"><path d="M6 4h9l4 4v12H6z" stroke="var(--carbon)" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4.5" stroke="var(--carbon)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="pillar-tag" data-i18n="pillar.3.tag">AGREEMENT</div>
+        <div class="pillar-title" data-i18n="pillar.3.title">Verifiable contracts</div>
+        <div class="pillar-desc" data-i18n="pillar.3.desc">The terms of the deal are recorded and both parties can check them at any time.</div>
       </div>
       <div class="pillar" data-c="green">
-        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3.5v5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5v-5L12 3z" stroke="var(--green)" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 12l1.8 1.8 3.2-3.6" stroke="var(--green)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="pillar-tag">RESPALDO</div>
-        <div class="pillar-title">Resolución de disputas</div>
-        <div class="pillar-desc">Si algo no sale como se acordó, hay un proceso claro para mediar y decidir qué pasa con el fondo retenido.</div>
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3.5v5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5v-5L12 3z" stroke="var(--carbon)" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 12l1.8 1.8 3.2-3.6" stroke="var(--carbon)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="pillar-tag" data-i18n="pillar.4.tag">BACKING</div>
+        <div class="pillar-title" data-i18n="pillar.4.title">Dispute resolution</div>
+        <div class="pillar-desc" data-i18n="pillar.4.desc">If something does not go as agreed, there is a clear process to mediate and decide what happens to the held funds.</div>
       </div>
     </div>
   </div>
@@ -779,27 +849,27 @@ footer{
 <section class="section tone-green reveal">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow" style="color:var(--green)">Un solo sistema, dos lados</span>
-      <h2 class="section-title">Pensado para personas y para empresas, sin traducciones raras</h2>
+      <span class="eyebrow" data-i18n="split.eyebrow">One system, two sides</span>
+      <h2 class="section-title" data-i18n="split.title">Built for people and for companies, with no awkward translation</h2>
     </div>
 
     <div class="split-grid">
       <div class="split-card orange">
-        <div class="split-kicker">PARA PERSONAS</div>
-        <div class="split-title">Vendé y comprá sin quedar a merced del "confiá en mí"</div>
+        <div class="split-kicker" data-i18n="split.people.kicker">FOR PEOPLE</div>
+        <div class="split-title" data-i18n="split.people.title">Sell and buy without being at the mercy of "just trust me"</div>
         <ul class="split-list">
-          <li>Cobrá un freelance sin miedo a que desaparezcan después de la entrega</li>
-          <li>Comprá algo de segunda mano sin pagar antes de ver que todo esté en orden</li>
-          <li>Cerrá acuerdos entre particulares con respaldo, no con capturas de pantalla</li>
+          <li data-i18n="split.people.1">Get paid for freelance work without fearing they vanish after delivery</li>
+          <li data-i18n="split.people.2">Buy second-hand without paying before you see everything is in order</li>
+          <li data-i18n="split.people.3">Close deals between individuals with real backing, not screenshots</li>
         </ul>
       </div>
       <div class="split-card green">
-        <div class="split-kicker">PARA EMPRESAS</div>
-        <div class="split-title">Sumá confianza verificable a cada operación con terceros</div>
+        <div class="split-kicker" data-i18n="split.biz.kicker">FOR COMPANIES</div>
+        <div class="split-title" data-i18n="split.biz.title">Add verifiable trust to every operation with third parties</div>
         <ul class="split-list">
-          <li>Pagá a proveedores nuevos sin exponerte a que no entreguen</li>
-          <li>Cobrá a clientes con la certeza de que el fondo ya está retenido</li>
-          <li>Integrá el sistema como capa de confianza dentro de tu propio flujo</li>
+          <li data-i18n="split.biz.1">Pay new suppliers without exposing yourself to non-delivery</li>
+          <li data-i18n="split.biz.2">Charge clients knowing the funds are already held</li>
+          <li data-i18n="split.biz.3">Integrate the system as a trust layer inside your own flow</li>
         </ul>
       </div>
     </div>
@@ -810,45 +880,254 @@ footer{
   <div class="wrap">
     <div class="dispute reveal">
       <div>
-        <div class="dispute-title">¿Y si algo sale mal?</div>
-        <p class="dispute-sub">No todos los tratos se cumplen como se esperaba. Por eso la resolución de disputas no es un extra: es parte del sistema desde el día uno. El fondo se queda retenido hasta que haya una resolución clara.</p>
+        <div class="dispute-title" data-i18n="dispute.title">What if something goes wrong?</div>
+        <p class="dispute-sub" data-i18n="dispute.sub">Not every deal ends the way it was meant to. That is why dispute resolution is not an add-on: it is part of the system from day one. The funds stay held until there is a clear resolution.</p>
       </div>
-      <div class="dispute-badge">100%<span>fondos protegidos<br>durante la disputa</span></div>
+      <div class="dispute-badge">100%<span data-i18n="dispute.badge">funds protected<br>during the dispute</span></div>
     </div>
   </div>
 </section>
 
 <section class="final-cta">
   <div class="wrap final-cta-inner">
-    <span class="eyebrow">Estás por entrar temprano</span>
-    <h2 class="final-title">Sé de los primeros en transaccionar con respaldo real</h2>
-    <p class="final-sub">Dejá tu email y te avisamos apenas tu acceso a HoldeX esté disponible.</p>
+    <span class="eyebrow" data-i18n="final.eyebrow">You are getting in early</span>
+    <h2 class="final-title" data-i18n="final.title">Be among the first to transact with real backing</h2>
+    <p class="final-sub" data-i18n="final.sub">Leave your email and we will let you know as soon as your HoldeX access is available.</p>
 
-    <div class="hero-form" style="margin-top:0;">
+    <div class="hero-form" style="margin-top:0; opacity:1; animation:none;">
       <form class="form-row" id="waitlist-form-2">
-        <input type="email" required placeholder="tu@email.com" aria-label="Tu correo electrónico" id="email-input-2">
-        <button type="submit" class="btn-submit">Sumarme a la lista →</button>
+        <input type="email" required placeholder="you@email.com" data-i18n-placeholder="form.placeholder" aria-label="Your email address" data-i18n-aria="form.aria" id="email-input-2">
+        <button type="submit" class="btn-submit">Join the waitlist</button>
       </form>
     </div>
-    <p class="hero-note" id="form-note-2">Sin spam. Te avisamos cuando tu acceso esté listo.</p>
+    <p class="hero-note" id="form-note-2" style="opacity:1; animation:none;">No spam. We email you when your access is ready.</p>
   </div>
 </section>
 
 <footer>
   <div class="wrap footer-inner">
     <div class="footer-logo">
-      <img src="logo.PNG" alt="HoldeX">
-      <span>© 2026 HoldeX — Infraestructura de confianza</span>
+      <svg class="mark" viewBox="0 0 1184 1623" role="img" aria-label="HoldeX"><use href="#holdex-mark"></use></svg>
+      <span data-i18n="footer.copy">© 2026 HoldeX — Trust infrastructure</span>
     </div>
     <div class="footer-links">
-      <a href="#acceso">Lista de espera</a>
-      <a href="#">Términos</a>
-      <a href="#">Privacidad</a>
+      <a href="#acceso" data-i18n="footer.waitlist">Waitlist</a>
+      <a href="#" data-i18n="footer.terms">Terms</a>
+      <a href="#" data-i18n="footer.privacy">Privacy</a>
     </div>
   </div>
 </footer>
 
 <script>
+/* ============================================================
+   I18N — English by default, Spanish one click away.
+   To edit copy: change the strings below. To add a language,
+   copy the whole `es` block, rename the key (e.g. `pt`) and add
+   a button <button type="button" data-lang="pt">PT</button>
+   inside .lang-toggle.
+   ============================================================ */
+const I18N = {
+  en: {
+    'meta.title': 'HoldeX — Trust infrastructure for transactions',
+    'lang.group': 'Language',
+    'nav.cta': 'Join the waitlist',
+    'hero.eyebrow': 'Early access · <b>waitlist open</b>',
+    'hero.title': '<span class="split">From <span class="accent-o">distrust</span></span><span class="split">to a closed <span class="accent-g">deal</span></span>',
+    'hero.sub': 'HoldeX is the infrastructure that holds the payment, verifies both parties and releases the money only when the deal is met. <b>Not a bank, not a handshake: a system.</b>',
+    'form.placeholder': 'you@email.com',
+    'form.aria': 'Your email address',
+    'btn.submit': 'Join the waitlist',
+    'btn.loading': 'Saving...',
+    'btn.success': 'You are in',
+    'note.idle': 'No spam. We email you when your access is ready.',
+    'note.loading': 'Saving your email...',
+    'note.success': 'Done. We will write to {email} when your access is ready.',
+    'note.duplicate': 'That email is already on the list. We do not save it twice.',
+    'note.format': 'Check the email format and try again.',
+    'note.failed': 'We could not save your email. Try again in a few seconds.',
+    'note.offline': 'We could not reach the database. Check your connection and try again.',
+    'stat.1': 'Funds held in custody',
+    'stat.2': 'Verified identity',
+    'stat.3': 'Unbacked payments',
+    'flow.eyebrow': 'How your money travels',
+    'flow.title': 'End to end, always in sight',
+    'step.1.label': 'Origin',
+    'step.1.title': 'The payment starts',
+    'step.1.desc': 'The payer deposits the agreed amount. HoldeX holds it — it never moves it.',
+    'step.2.label': 'Verification',
+    'step.2.title': 'Identity is validated',
+    'step.2.desc': 'KYC on both sides, plus a verifiable contract with the terms of the deal.',
+    'step.3.label': 'Fulfillment',
+    'step.3.title': 'Delivery is confirmed',
+    'step.3.desc': 'The product, service or deliverable is marked as fulfilled by both parties.',
+    'step.4.label': 'Destination',
+    'step.4.title': 'The funds are released',
+    'step.4.desc': 'The money reaches the payee. If there is a conflict, dispute resolution steps in.',
+    'flow.caption': 'You always know where <span class="amt">your money</span> is — there is no grey zone between "paid" and "collected".',
+    'layers.eyebrow': 'The base of the system',
+    'layers.title': 'Four layers, one single trust',
+    'pillar.1.tag': 'CUSTODY',
+    'pillar.1.title': 'Escrow',
+    'pillar.1.desc': 'The money sits in a neutral account until the agreed conditions are met. Neither party controls it alone.',
+    'pillar.2.tag': 'IDENTITY',
+    'pillar.2.title': 'KYC verification',
+    'pillar.2.desc': 'Every person or company entering the system goes through identity validation. You know who you are dealing with.',
+    'pillar.3.tag': 'AGREEMENT',
+    'pillar.3.title': 'Verifiable contracts',
+    'pillar.3.desc': 'The terms of the deal are recorded and both parties can check them at any time.',
+    'pillar.4.tag': 'BACKING',
+    'pillar.4.title': 'Dispute resolution',
+    'pillar.4.desc': 'If something does not go as agreed, there is a clear process to mediate and decide what happens to the held funds.',
+    'split.eyebrow': 'One system, two sides',
+    'split.title': 'Built for people and for companies, with no awkward translation',
+    'split.people.kicker': 'FOR PEOPLE',
+    'split.people.title': 'Sell and buy without being at the mercy of "just trust me"',
+    'split.people.1': 'Get paid for freelance work without fearing they vanish after delivery',
+    'split.people.2': 'Buy second-hand without paying before you see everything is in order',
+    'split.people.3': 'Close deals between individuals with real backing, not screenshots',
+    'split.biz.kicker': 'FOR COMPANIES',
+    'split.biz.title': 'Add verifiable trust to every operation with third parties',
+    'split.biz.1': 'Pay new suppliers without exposing yourself to non-delivery',
+    'split.biz.2': 'Charge clients knowing the funds are already held',
+    'split.biz.3': 'Integrate the system as a trust layer inside your own flow',
+    'dispute.title': 'What if something goes wrong?',
+    'dispute.sub': 'Not every deal ends the way it was meant to. That is why dispute resolution is not an add-on: it is part of the system from day one. The funds stay held until there is a clear resolution.',
+    'dispute.badge': 'funds protected<br>during the dispute',
+    'final.eyebrow': 'You are getting in early',
+    'final.title': 'Be among the first to transact with real backing',
+    'final.sub': 'Leave your email and we will let you know as soon as your HoldeX access is available.',
+    'footer.copy': '© 2026 HoldeX — Trust infrastructure',
+    'footer.waitlist': 'Waitlist',
+    'footer.terms': 'Terms',
+    'footer.privacy': 'Privacy'
+  },
+  es: {
+    'meta.title': 'HoldeX — Infraestructura de confianza para transacciones',
+    'lang.group': 'Idioma',
+    'nav.cta': 'Unirme a la lista',
+    'hero.eyebrow': 'Acceso anticipado · <b>lista de espera abierta</b>',
+    'hero.title': '<span class="split">De la <span class="accent-o">desconfianza</span></span><span class="split">a la <span class="accent-g">transacción</span> cerrada</span>',
+    'hero.sub': 'HoldeX es la infraestructura que retiene el pago, verifica a ambas partes y libera el dinero solo cuando el trato se cumple. <b>Ni un banco, ni un handshake: un sistema.</b>',
+    'form.placeholder': 'tu@email.com',
+    'form.aria': 'Tu correo electrónico',
+    'btn.submit': 'Sumarme a la lista',
+    'btn.loading': 'Guardando...',
+    'btn.success': 'Sumado',
+    'note.idle': 'Sin spam. Te avisamos cuando tu acceso esté listo.',
+    'note.loading': 'Guardando tu email...',
+    'note.success': 'Listo. Te escribimos a {email} cuando tu acceso esté disponible.',
+    'note.duplicate': 'Ese email ya está registrado. No lo guardamos dos veces.',
+    'note.format': 'Revisá el formato del email e intentalo de nuevo.',
+    'note.failed': 'No pudimos guardar el email. Intentalo de nuevo en unos segundos.',
+    'note.offline': 'No pudimos conectar con la base. Revisá tu conexión e intentalo otra vez.',
+    'stat.1': 'Fondos en custodia',
+    'stat.2': 'Identidad verificada',
+    'stat.3': 'Pagos sin respaldo',
+    'flow.eyebrow': 'Cómo viaja tu dinero',
+    'flow.title': 'De un extremo al otro, siempre a la vista',
+    'step.1.label': 'Origen',
+    'step.1.title': 'Se inicia el pago',
+    'step.1.desc': 'El pagador deposita el monto acordado. HoldeX lo retiene, no lo mueve.',
+    'step.2.label': 'Verificación',
+    'step.2.title': 'Se valida identidad',
+    'step.2.desc': 'KYC de ambas partes y contrato verificable con los términos del trato.',
+    'step.3.label': 'Cumplimiento',
+    'step.3.title': 'Se confirma la entrega',
+    'step.3.desc': 'El producto, servicio o entregable se marca como cumplido por ambas partes.',
+    'step.4.label': 'Destino',
+    'step.4.title': 'Se libera el fondo',
+    'step.4.desc': 'El dinero llega al cobrador. Si hay conflicto, entra la resolución de disputas.',
+    'flow.caption': 'En todo momento sabés dónde está <span class="amt">tu dinero</span> — no hay zona gris entre el "listo, pago" y el "listo, cobrado".',
+    'layers.eyebrow': 'La base del sistema',
+    'layers.title': 'Cuatro capas, una sola confianza',
+    'pillar.1.tag': 'CUSTODIA',
+    'pillar.1.title': 'Escrow',
+    'pillar.1.desc': 'El dinero queda en una cuenta neutral hasta que se cumplan las condiciones pactadas. Ninguna parte lo controla sola.',
+    'pillar.2.tag': 'IDENTIDAD',
+    'pillar.2.title': 'Verificación KYC',
+    'pillar.2.desc': 'Cada persona o empresa que entra al sistema pasa por validación de identidad. Sabés con quién estás tratando.',
+    'pillar.3.tag': 'ACUERDO',
+    'pillar.3.title': 'Contratos verificables',
+    'pillar.3.desc': 'Los términos del trato quedan registrados y son consultables por ambas partes en cualquier momento.',
+    'pillar.4.tag': 'RESPALDO',
+    'pillar.4.title': 'Resolución de disputas',
+    'pillar.4.desc': 'Si algo no sale como se acordó, hay un proceso claro para mediar y decidir qué pasa con el fondo retenido.',
+    'split.eyebrow': 'Un solo sistema, dos lados',
+    'split.title': 'Pensado para personas y para empresas, sin traducciones raras',
+    'split.people.kicker': 'PARA PERSONAS',
+    'split.people.title': 'Vendé y comprá sin quedar a merced del "confiá en mí"',
+    'split.people.1': 'Cobrá un freelance sin miedo a que desaparezcan después de la entrega',
+    'split.people.2': 'Comprá algo de segunda mano sin pagar antes de ver que todo esté en orden',
+    'split.people.3': 'Cerrá acuerdos entre particulares con respaldo, no con capturas de pantalla',
+    'split.biz.kicker': 'PARA EMPRESAS',
+    'split.biz.title': 'Sumá confianza verificable a cada operación con terceros',
+    'split.biz.1': 'Pagá a proveedores nuevos sin exponerte a que no entreguen',
+    'split.biz.2': 'Cobrá a clientes con la certeza de que el fondo ya está retenido',
+    'split.biz.3': 'Integrá el sistema como capa de confianza dentro de tu propio flujo',
+    'dispute.title': '¿Y si algo sale mal?',
+    'dispute.sub': 'No todos los tratos se cumplen como se esperaba. Por eso la resolución de disputas no es un extra: es parte del sistema desde el día uno. El fondo se queda retenido hasta que haya una resolución clara.',
+    'dispute.badge': 'fondos protegidos<br>durante la disputa',
+    'final.eyebrow': 'Estás por entrar temprano',
+    'final.title': 'Sé de los primeros en transaccionar con respaldo real',
+    'final.sub': 'Dejá tu email y te avisamos apenas tu acceso a HoldeX esté disponible.',
+    'footer.copy': '© 2026 HoldeX — Infraestructura de confianza',
+    'footer.waitlist': 'Lista de espera',
+    'footer.terms': 'Términos',
+    'footer.privacy': 'Privacidad'
+  }
+};
+
+const DEFAULT_LANG = 'en';
+let lang = (function(){
+  try{
+    const saved = localStorage.getItem('holdex-lang');
+    if(saved && I18N[saved]) return saved;
+  }catch(_e){}
+  const nav = (navigator.language || '').toLowerCase();
+  return nav.indexOf('es') === 0 ? 'es' : DEFAULT_LANG;
+})();
+
+function t(key, vars){
+  let str = (I18N[lang] && I18N[lang][key]) || I18N[DEFAULT_LANG][key] || '';
+  if(vars){
+    Object.keys(vars).forEach(function(k){
+      str = str.split('{' + k + '}').join(vars[k]);
+    });
+  }
+  return str;
+}
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.title = t('meta.title');
+
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    el.innerHTML = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(function(el){
+    el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+  });
+  document.querySelectorAll('.lang-toggle button').forEach(function(btn){
+    btn.setAttribute('aria-pressed', btn.getAttribute('data-lang') === lang ? 'true' : 'false');
+  });
+
+  FORMS.forEach(paintForm);
+}
+
+function setLang(next){
+  if(!I18N[next]) return;
+  lang = next;
+  try{ localStorage.setItem('holdex-lang', next); }catch(_e){}
+  applyLang();
+}
+
+document.querySelectorAll('.lang-toggle button').forEach(function(btn){
+  btn.addEventListener('click', function(){ setLang(btn.getAttribute('data-lang')); });
+});
+
 // ---- Reveal on scroll (generic) ----
 const revealEls = document.querySelectorAll('.reveal');
 const revealObserver = new IntersectionObserver((entries)=>{
@@ -887,25 +1166,35 @@ if(flowRail) flowObserver.observe(flowRail);
 const SUPABASE_REST_URL = 'https://sicumdbokybfcdlfmjdv.supabase.co/rest/v1/email_signups';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Y8Y25Gm8ieXrDUNiYXXc-g_fW3_HY8Y';
 
-function setFormState(form, input, note, state, text){
-  const btn = form.querySelector('.btn-submit');
-  if(!btn.dataset.defaultText) btn.dataset.defaultText = btn.textContent;
+const FORMS = [];
+
+function paintForm(entry){
+  const state = entry.state || 'idle';
   const colors = {
     idle: 'var(--grey-dim)',
     loading: 'var(--grey)',
     success: 'var(--green)',
     error: 'var(--orange)'
   };
+  const btn = entry.form.querySelector('.btn-submit');
 
-  note.textContent = text;
-  note.style.color = colors[state] || colors.idle;
+  entry.note.textContent = t(entry.noteKey || 'note.idle', {email: entry.email || ''});
+  entry.note.style.color = colors[state] || colors.idle;
+
   btn.disabled = state === 'loading' || state === 'success';
-  input.disabled = state === 'loading' || state === 'success';
+  entry.input.disabled = state === 'loading' || state === 'success';
   btn.textContent = state === 'loading'
-    ? 'Guardando...'
+    ? t('btn.loading')
     : state === 'success'
-      ? 'Sumado'
-      : btn.dataset.defaultText;
+      ? t('btn.success')
+      : t('btn.submit');
+}
+
+function setFormState(entry, state, noteKey, email){
+  entry.state = state;
+  entry.noteKey = noteKey;
+  if(email !== undefined) entry.email = email;
+  paintForm(entry);
 }
 
 async function saveEmailSignup(email){
@@ -944,41 +1233,46 @@ function setupForm(formId, noteId, inputId){
   const input = document.getElementById(inputId);
   if(!form || !note || !input) return;
 
+  const entry = {form: form, note: note, input: input, state: 'idle', noteKey: 'note.idle', email: ''};
+  FORMS.push(entry);
+
   form.addEventListener('submit', async function(ev){
     ev.preventDefault();
 
     const email = input.value.trim();
     if(!email) return;
 
-    setFormState(form, input, note, 'loading', 'Guardando tu email...');
+    setFormState(entry, 'loading', 'note.loading');
 
     try{
       const result = await saveEmailSignup(email);
 
       if(result.ok){
         input.value = '';
-        setFormState(form, input, note, 'success', 'Listo. Te escribimos a ' + email + ' cuando tu acceso este disponible.');
+        setFormState(entry, 'success', 'note.success', email);
         return;
       }
 
       if(result.status === 409 || result.code === '23505'){
-        setFormState(form, input, note, 'error', 'Ese email ya esta registrado. No lo guardamos dos veces.');
+        setFormState(entry, 'error', 'note.duplicate');
         return;
       }
 
       if(result.code === '23514'){
-        setFormState(form, input, note, 'error', 'Revisa el formato del email e intentalo de nuevo.');
+        setFormState(entry, 'error', 'note.format');
         return;
       }
 
-      setFormState(form, input, note, 'error', 'No pudimos guardar el email. Intentalo de nuevo en unos segundos.');
+      setFormState(entry, 'error', 'note.failed');
     }catch(_err){
-      setFormState(form, input, note, 'error', 'No pudimos conectar con la base. Revisa tu conexion e intentalo otra vez.');
+      setFormState(entry, 'error', 'note.offline');
     }
   });
 }
 setupForm('waitlist-form', 'form-note', 'email-input');
 setupForm('waitlist-form-2', 'form-note-2', 'email-input-2');
+
+applyLang();
 </script>
 
 </body>
